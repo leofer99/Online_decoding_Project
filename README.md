@@ -96,7 +96,7 @@ Thirdly, I used the Online_simulation_latent_alignment_direction_avg.py script, 
 I obtained the following image:
 ![Online Sim -  CCA alignment - Average direction data](README_images/Online_simulation_CCAalignment_directionavg.png)
 
-Using the same script, I can study the effect of using the Kalman latents (computed beforehand):
+Using the Online_simulation_latent_alignment_direction_avg_Kalman.py script, I can study the effect of using the Kalman latents (computed beforehand):
 ![Online Sim -  CCA alignment of Kalman latents - Average direction data](README_images/Online_simulation_CCAalignment_directionavg_withKalmanlatents.png)
 **To compute the Kalman latents, it is necessary to uncomment some lines of code in the filters.py script!**
 
