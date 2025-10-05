@@ -1,21 +1,39 @@
-# Project Name
+# Enhancing neural decoding stability with manifold alignment
 
-## Description
+This repository contains the implementation code for the research conducted in the Laboratory for Neuro- and Psychophysiology, at KU Leuven, under the supervision of Professor Peter Janssen, PhD Student Ophelie Saussus and Dr. Sofie De Schrijver.
 
-Description of the project—what it does, its main features, and why it’s useful.
+This project focuses on **neural decoding of premotor and motor activity**, specifically, **spike signals** and **local field potentials (LFPs)**, recorded during VR-based navigation and grasping tasks in _macaque_ monkeys.
 
 ---
 
-## Table of Contents
-1. Latent Extraction (PSID, DPAD, PCA and kPCA)
-2. 3D Visualization (PSID, DPAD and PCA)
-3. CCA offline Alignment
-4. Online simulation: Training Data
-5. Online simulation: Decoding Data
+## 🧠 Research Overview
+
+The goal of this work is to model and decode neural population dynamics underlying motor behavior and to improve the stability of decoding across recording sessions and subjects.
+
 ---
+
+## ⚙️ Methodology
 
 ### 1. Latent Extraction (PSID, DPAD, PCA and kPCA)
-The script L_PCA,PSID,DPAD_DR.py plots the three leading latents, using latent extraction from methods PSID (latents obtained using TrainingScript), DPAD (the script to obtain the latents is explained bellow) and PCA (latents are calculated directly in L_PCA,PSID,DPAD_DR.py). It also has the results obtained using kPCA extraction (latents are also calculated directly). It also saves the PCA and kPCA latents to pickle files.
+Evaluated multiple approaches for extracting low-dimensional representations of neural activity:
+- **Principal Component Analysis (PCA)**
+- **Preferential Subspace Identification (PSID)**
+- **Dissociative Prioritized Analysis of Dynamics (DPAD)**
+  
+### 2. 3D Visualization (PSID, DPAD and PCA)
+
+### 3. CCA offline Alignment
+Integrated **canonical correlation analysis (CCA)** into the decoding pipeline to align latent manifolds across sessions and subjects, enhancing **cross-day** and **cross-monkey** prediction stability.
+
+### 4. Online simulation: Training Data
+### 5. Online simulation: Decoding Data
+Simulated **real-time neural decoding** using **Kalman filters** and
+**velocity regressors**, achieving robust performance and stable behavioral predictions.
+
+---
+
+## 1. Latent Extraction (PSID, DPAD, PCA and kPCA)
+The script L_PCA,PSID,DPAD_DR.py plots the three leading latents, using latent extraction from methods PSID (latents obtained using TrainingScript), DPAD (the script to obtain the latents is explained bellow) and PCA (latents are calculated directly in L_PCA,PSID,DPAD_DR.py). It also has the results obtained using kPCA extraction (latents are also calculated directly). It also saves the PCA and kPCA latents to .pkl files.
 
 Using this script, I obtain the following images:
 ![PSID](README_images/Latent_extraction_PSID.png)
@@ -24,7 +42,7 @@ Using this script, I obtain the following images:
 ![kPCA](README_images/Latent_extraction_kPCA.png)
 
 
-#### 1.1 Extraction of DPAD Latents:
+### 1.1 Extraction of DPAD Latents:
 To obtain the DPAD latents, it is necessary to use the DPAD folder, instead of the 0N_Decoding_algorithm folder. The DPAD code is adapted from the DPAD paper and repository: 
 https://www.nature.com/articles/s41593-024-01731-2
 https://github.com/ShanechiLab/DPAD
@@ -34,19 +52,26 @@ The directory for the folder used to calculate the DPAD latents is DPAD\source\D
 Running the code will create DPAD_latents.pkl, a file that stores the DPAD latents. In the end, it also indicates the CC of decoding and self-prediction.
 
 
-### 2. 3D Visualization (PSID, DPAD and PCA)
+## 2. 3D Visualization (PSID, DPAD and PCA)
 The script L_PCA,PSID,DPAD_3D_visualization.py plots the 6 latents dimensions in a 3D representation.
 In the beginning, you choose the latent to the visualized (can be PSID, DPAD or PCA).
 
-It shows the 3D representation using the following methods (that further reduce the data from 6D to 3D): none (which shows only the 3 leading neural modes), PCA, kPCA, t-SNE, Isomap, LDA and LLE (there 4 LLE methods used)
+It shows the 3D representation using the following 3D visualization methods (that further reduce the data from 6D to 3D): 
+none (which shows only the 3 leading neural modes)
+PCA
+kPCA
+t-SNE
+Isomap
+LDA
+LLE (there 4 LLE methods used)
 
-using latent extraction from methods PSID (latents obtained using TrainingScript), DPAD (the script to obtain the latents is explained bellow) and PCA (latents are calculated directly in L_PCA,PSID,DPAD_DR.py). It also has the results obtained using kPCA extraction (latents are also calculated directly).
+using latent extraction from methods PSID (latents obtained using TrainingScript), DPAD (the script to obtain the latents is explained below) and PCA (latents are calculated directly in L_PCA,PSID,DPAD_DR.py). It also has the results obtained using kPCA extraction (latents are also calculated directly).
 
 Using this script, I obtain the following images:
 ![PSID](README_images/Latent_extraction_PSID_using3D_Part1.png)
 ![PSID](README_images/Latent_extraction_PSID_using3D_Part2.png)
 
-
+## 3. CCA Alignment
 ### 3.1 CCA offline Alignment
 To analyse the role of CCA in latents, I first used the following 2 scripts: 
 L_CCAalignment_diff_monkeys.py 
@@ -79,7 +104,7 @@ For each, I obtain the following images:
 ![CCA offline SimDay0s](README_images/Comparison_of_all_aligned_day0s.png)
 
 
-### 4. Online simulation: Training Data
+## 4. Online simulation: Training Data
 First off, I tested the online simulation script, with training data and model both from Day-0, without alignment, to see what the result would be. I used the Online_simulation_no_alignment.py script, to obtain the following image:
 ![Online Sim - No alignment](README_images/Online_simulation_no_alignment_training_data.png)
 
@@ -110,7 +135,7 @@ An example is:
 ![Online Sim -  CCA on Neural Data](README_images/Online_simulation_neural_data_alignment.png)
 
 
-### 5. Online simulation: Decoding Data
+## 5. Online simulation: Decoding Data
 It is not necessary to get the decoding latents for the online simulation of the decoding data. For that, I only need the latents of the training of both days.
 
 With Online_decoding_no_alignment.py, I get the decoding for no alignment (should be identical to the monkey trajectory):
@@ -124,4 +149,5 @@ With Online_decoding_latent_alignment_decoding_file_CCAavgalignment.py, I get an
 ![Online Sim - Decoding - CCA alignment](README_images/Decoding_CCAalignment_RIGHT.png)
 
 **WRONG image:** (was aligning the training latents instead of the decoding latents)
+
 ![Online Sim - Decoding - CCA alignment](README_images/Decoding_CCAalignment_WRONG.png)
